@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>GitHub Wiki</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Wiki проекта</h1>
+            <div class="search">
+                <input type="text" id="search-input" placeholder="Поиск статей...">
+            </div>
+        </header>
+        
+        <div class="layout">
+            <aside id="sidebar">
+                <h2>Список статей</h2>
+                <ul id="articles-list"></ul>
+            </aside>
+            
+            <main id="article-content">
+                <p>Выберите статью слева или создайте новую в папке /contents</p>
+            </main>
+        </div>
+        
+        <footer>
+            <p>Статья добавляется при создании файла в /contents. Обновите страницу после добавления.</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
