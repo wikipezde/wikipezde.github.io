@@ -2,32 +2,30 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>GitHub Wiki</title>
+    <title>Wikipezde Wiki</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Wiki проекта</h1>
+            <h1>Wikipezde Documentation</h1>
             <div class="search">
-                <input type="text" id="search-input" placeholder="Поиск статей...">
+                <input type="text" id="search-input" placeholder="Search articles...">
             </div>
         </header>
         
         <div class="layout">
             <aside id="sidebar">
-                <h2>Список статей</h2>
-                <ul id="articles-list"></ul>
+                <h2>Articles</h2>
+                <ul id="articles-list">
+                    <!-- Список статей будет сгенерирован автоматически -->
+                </ul>
             </aside>
             
             <main id="article-content">
-                <p>Выберите статью слева или создайте новую в папке /contents</p>
+                <p>Select an article from the left or create new one in /contents folder</p>
             </main>
         </div>
-        
-        <footer>
-            <p>Статья добавляется при создании файла в /contents. Обновите страницу после добавления.</p>
-        </footer>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
