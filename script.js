@@ -3,60 +3,86 @@ document.addEventListener('DOMContentLoaded', () => {
     const articleContent = document.getElementById('article-content');
     const searchInput = document.getElementById('search-input');
     
-    // GitHub API для получения содержимого папки
-    const REPO_OWNER = 'wikipezde';
-    const REPO_NAME = 'wikipezde.github.io';
-    const CONTENTS_PATH = '';
-    const API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${CONTENTS_PATH}`;
-
+    // Путь к папке с контентом
+    const CONTENTS_PATH = 'contents';
+    
     // Загрузка списка статей
     async function loadArticles() {
         try {
-            const response = await fetch(API_URL);
-            if (!response.ok) throw new Error('Ошибка загрузки статей');
+            // Пытаемся получить автоматически сгенерированный список
+            const response = await fetch('articles.json');
             
-            const files = await response.json();
-            articlesList.innerHTML = '';
-            
-            files.filter(file => file.name.endsWith('.md')).forEach(file => {
-                const fileName = file.name.replace('.md', '');
-                const listItem = document.createElement('li');
-                listItem.innerHTML = `<a href="#" data-url="${file.download_url}">${fileName}</a>`;
-                articlesList.appendChild(listItem);
-            });
-            
-            // Обработка кликов
-            document.querySelectorAll('#articles-list a').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    loadArticleContent(link.dataset.url);
-                });
-            });
-            
-            // Поиск
-            searchInput.addEventListener('input', filterArticles);
-            
+            if (response.ok) {
+                const articles = await response.json();
+                renderArticlesList(articles);
+            } else {
+                // Fallback для локальной разработки
+                const testArticles = [
+                    "test.md",
+                    "example.md"
+                ];
+                renderArticlesList(testArticles);
+            }
         } catch (error) {
-            articlesList.innerHTML = `<li>Ошибка: ${error.message}</li>`;
+            console.error('Error loading articles:', error);
+            renderArticlesList(["test.md"]);
         }
     }
 
-    // Загрузка содержимого статьи
-    async function loadArticleContent(url) {
+    function renderArticlesList(articles) {
+        articlesList.innerHTML = '';
+        
+        articles.forEach(file => {
+            const fileName = file.replace('.md', '');
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `<a href="#" data-file="${file}">${fileName}</a>`;
+            articlesList.appendChild(listItem);
+        });
+        
+        // Добавляем обработчики кликов
+        document.querySelectorAll('#articles-list a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                loadArticleContent(link.dataset.file);
+            });
+        });
+        
+        // Загружаем статью из URL, если есть параметр
+        const urlParams = new URLSearchParams(window.location.search);
+        const articleParam = urlParams.get('article');
+        
+        if (articleParam) {
+            loadArticleContent(`${articleParam}.md`);
+        } else if (articles.includes('test.md')) {
+            // По умолчанию загружаем test.md если она существует
+            loadArticleContent('test.md');
+        }
+    }
+
+    async function loadArticleContent(filename) {
         try {
-            const response = await fetch(url);
-            if (!response.ok) throw new Error('Ошибка загрузки статьи');
+            const response = await fetch(`${CONTENTS_PATH}/${filename}`);
+            if (!response.ok) throw new Error('Article not found');
             
             const markdown = await response.text();
             articleContent.innerHTML = marked.parse(markdown);
             
+            // Обновляем URL без перезагрузки страницы
+            history.pushState(null, null, `?article=${filename.replace('.md', '')}`);
+            
         } catch (error) {
-            articleContent.innerHTML = `<p>Ошибка: ${error.message}</p>`;
+            articleContent.innerHTML = `
+                <div class="error">
+                    <h3>Error loading article</h3>
+                    <p>${error.message}</p>
+                    <p>Please check if file <code>${filename}</code> exists in ${CONTENTS_PATH}/ directory.</p>
+                </div>
+            `;
         }
     }
 
-    // Фильтрация статей
-    function filterArticles() {
+    // Поиск по статьям
+    searchInput.addEventListener('input', () => {
         const filter = searchInput.value.toLowerCase();
         const items = articlesList.querySelectorAll('li');
         
@@ -64,20 +90,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const text = item.textContent.toLowerCase();
             item.style.display = text.includes(filter) ? 'block' : 'none';
         });
-    }
-
-    // Автозагрузка статьи из URL-параметра
-    function loadFromUrlParam() {
-        const params = new URLSearchParams(window.location.search);
-        const article = params.get('article');
-        
-        if (article) {
-            const articleUrl = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/contents/${article}.md`;
-            loadArticleContent(articleUrl);
-        }
-    }
+    });
 
     // Инициализация
     loadArticles();
-    loadFromUrlParam();
 });
