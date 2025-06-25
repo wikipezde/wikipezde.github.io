@@ -4,8 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('search-input');
     
     // GitHub API для получения содержимого папки
-    const REPO_OWNER = 'ваш_логин_github';
-    const REPO_NAME = 'ваш_репозиторий';
+    const REPO_OWNER = 'wikipezde';
+    const REPO_NAME = 'wikipezde.github.io';
     const CONTENTS_PATH = 'contents';
     const API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${CONTENTS_PATH}`;
 
