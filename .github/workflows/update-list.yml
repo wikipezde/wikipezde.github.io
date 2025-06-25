@@ -1,0 +1,18 @@
+name: Update Wiki List
+on:
+  push:
+    paths:
+      - 'contents/**'
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Commit changes
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "Auto-update article list" || echo "No changes"
+          git push
