@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // GitHub API для получения содержимого папки
     const REPO_OWNER = 'wikipezde';
     const REPO_NAME = 'wikipezde.github.io';
-    const CONTENTS_PATH = 'contents';
+    const CONTENTS_PATH = '';
     const API_URL = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${CONTENTS_PATH}`;
 
     // Загрузка списка статей
