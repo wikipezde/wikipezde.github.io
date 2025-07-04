@@ -2,13 +2,21 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wikipezde Wiki</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplemde@1.11.2/dist/simplemde.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Wikipezde Documentation</h1>
+            <div class="header-content">
+                <h1>Wikipezde Documentation</h1>
+                <div class="theme-switcher">
+                    <button id="theme-toggle">🌓</button>
+                </div>
+            </div>
             <div class="search">
                 <input type="text" id="search-input" placeholder="Search articles...">
             </div>
@@ -16,19 +24,34 @@
         
         <div class="layout">
             <aside id="sidebar">
-                <h2>Articles</h2>
-                <ul id="articles-list">
-                    <!-- Список статей будет сгенерирован автоматически -->
-                </ul>
+                <div class="sidebar-header">
+                    <h2>Articles</h2>
+                    <button id="new-article">+ New</button>
+                </div>
+                <ul id="articles-list"></ul>
             </aside>
             
             <main id="article-content">
-                <p>Select an article from the left or create new one in /contents folder</p>
+                <div id="editor-container" class="hidden">
+                    <textarea id="article-editor"></textarea>
+                    <div class="editor-actions">
+                        <button id="save-article">Save</button>
+                        <button id="cancel-edit">Cancel</button>
+                    </div>
+                </div>
+                <div id="viewer-container"></div>
             </main>
+        </div>
+
+        <div class="mobile-menu">
+            <button id="menu-toggle">☰</button>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simplemde@1.11.2/dist/simplemde.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
