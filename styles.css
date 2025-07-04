@@ -1,129 +1,74 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+:root {
+    --bg-color: #f8f9fa;
+    --text-color: #333;
+    --primary-color: #0366d6;
+    --sidebar-bg: white;
+    --header-bg: #24292e;
+    --shadow: 0 2px 10px rgba(0,0,0,0.1);
+    --border-radius: 8px;
 }
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.6;
-    color: #333;
-    background-color: #f8f9fa;
+[data-theme="dark"] {
+    --bg-color: #1e1e1e;
+    --text-color: #f0f0f0;
+    --sidebar-bg: #2d2d2d;
+    --header-bg: #121212;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+/* Остальные стили остаются прежними, но используют CSS-переменные */
+/* Добавляем новые стили для новых элементов */
+
+.theme-switcher {
+    margin-left: auto;
 }
 
-header {
-    background-color: #24292e;
-    color: white;
-    padding: 1rem 0;
-    border-radius: 8px 8px 0 0;
-    margin-bottom: 20px;
-}
-
-header h1 {
-    text-align: center;
-    margin-bottom: 1rem;
-}
-
-.search {
-    width: 80%;
-    margin: 0 auto;
-}
-
-#search-input {
-    width: 100%;
-    padding: 10px;
+#theme-toggle {
+    background: none;
     border: none;
-    border-radius: 4px;
-    font-size: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
 }
 
-.layout {
-    display: flex;
-    gap: 20px;
+#editor-container {
+    display: none;
 }
 
-#sidebar {
-    flex: 0 0 250px;
-    background: white;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-#articles-list {
-    list-style-type: none;
-}
-
-#articles-list li {
-    margin-bottom: 10px;
-}
-
-#articles-list a {
+#editor-container.visible {
     display: block;
-    padding: 8px 12px;
-    border-radius: 4px;
-    color: #0366d6;
-    text-decoration: none;
-    transition: background 0.2s;
 }
 
-#articles-list a:hover {
-    background-color: #f6f8fa;
+#viewer-container.hidden {
+    display: none;
 }
 
-#article-content {
-    flex: 1;
-    background: white;
-    border-radius: 8px;
-    padding: 30px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-footer {
-    text-align: center;
-    margin-top: 20px;
-    color: #6a737d;
-    font-size: 0.9rem;
-}
-
-/* Стили для Markdown-контента */
-#article-content h1, #article-content h2, #article-content h3 {
-    margin-top: 1.5em;
-    margin-bottom: 0.8em;
-    color: #24292e;
-}
-
-#article-content p {
-    margin-bottom: 1em;
-}
-
-#article-content pre {
-    background: #f6f8fa;
-    padding: 16px;
-    border-radius: 6px;
-    overflow: auto;
-    margin-bottom: 1em;
-}
-
-#article-content code {
-    background: #f6f8fa;
-    padding: 0.2em 0.4em;
-    border-radius: 3px;
-    font-family: SFMono-Regular,Consolas,monospace;
+.mobile-menu {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
 }
 
 @media (max-width: 768px) {
-    .layout {
-        flex-direction: column;
+    .mobile-menu {
+        display: block;
     }
     
     #sidebar {
-        flex: 0 0 auto;
+        position: fixed;
+        left: -100%;
+        top: 0;
+        height: 100vh;
+        z-index: 100;
+        transition: left 0.3s ease;
+    }
+    
+    #sidebar.visible {
+        left: 0;
     }
 }
